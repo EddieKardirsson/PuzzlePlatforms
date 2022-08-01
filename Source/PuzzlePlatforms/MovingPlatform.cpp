@@ -8,6 +8,7 @@ AMovingPlatform::AMovingPlatform()
 	PrimaryActorTick.bCanEverTick = true;
 
 	SetMobility(EComponentMobility::Movable);
+	SetPivotOffset(FVector(0.5));
 }
 
 void AMovingPlatform::BeginPlay()
@@ -18,7 +19,9 @@ void AMovingPlatform::BeginPlay()
 	{
 		SetReplicates(true);
 		SetReplicateMovement(true);
-	}	
+	}
+	GlobalStartLocation = GetActorLocation();
+	GlobalTargetLocation = GetTransform().TransformPosition(TargetLocation);
 }
 
 void AMovingPlatform::Tick(float DeltaSeconds)
@@ -28,7 +31,18 @@ void AMovingPlatform::Tick(float DeltaSeconds)
 	if(HasAuthority())
 	{
 		FVector Location = GetActorLocation();
-		Location += FVector(Speed * DeltaSeconds, 0, 0);
+		float JourneyLength = (GlobalTargetLocation - GlobalStartLocation).Size();
+		float JourneyTraveled = (Location - GlobalStartLocation).Size();
+
+		if(JourneyTraveled >= JourneyLength)
+		{
+			const FVector Swap = GlobalStartLocation;
+			GlobalStartLocation = GlobalTargetLocation;
+			GlobalTargetLocation = Swap;
+		}
+
+		FVector Direction = (GlobalTargetLocation - GlobalStartLocation).GetSafeNormal(); //GetSafeNormal is better than Normalize
+		Location += Speed * DeltaSeconds * Direction;
 		SetActorLocation(Location);
 	}	
 
