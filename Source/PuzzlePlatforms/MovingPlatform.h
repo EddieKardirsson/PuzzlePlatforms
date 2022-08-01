@@ -29,5 +29,5 @@ public:
 private:
 
 	UPROPERTY(EditAnywhere)
-	float Speed = 15;
+	float Speed = 30;
 };
