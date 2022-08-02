@@ -31,8 +31,8 @@ void AMovingPlatform::Tick(float DeltaSeconds)
 	if(HasAuthority())
 	{
 		FVector Location = GetActorLocation();
-		float JourneyLength = (GlobalTargetLocation - GlobalStartLocation).Size();
-		float JourneyTraveled = (Location - GlobalStartLocation).Size();
+		JourneyLength = (GlobalTargetLocation - GlobalStartLocation).Size();
+		JourneyTraveled = (Location - GlobalStartLocation).Size();
 
 		if(JourneyTraveled >= JourneyLength)
 		{

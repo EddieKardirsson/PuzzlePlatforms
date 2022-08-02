@@ -38,4 +38,10 @@ private:
 
 	FVector GlobalTargetLocation;
 	FVector GlobalStartLocation;
+
+	UPROPERTY(VisibleAnywhere)
+	float JourneyLength;
+
+	UPROPERTY(VisibleAnywhere)
+	float JourneyTraveled;;
 };
