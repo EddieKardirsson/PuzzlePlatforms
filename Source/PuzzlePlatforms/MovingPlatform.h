@@ -34,6 +34,9 @@ public:
 	UPROPERTY(EditAnywhere, meta = (MakeEditWidget = true))
 	FVector TargetLocation;
 
+	void AddActiveTrigger();
+	void RemoveActiveTrigger();
+
 private:
 
 	FVector GlobalTargetLocation;
@@ -43,5 +46,8 @@ private:
 	float JourneyLength;
 
 	UPROPERTY(VisibleAnywhere)
-	float JourneyTraveled;;
+	float JourneyTraveled;
+
+	UPROPERTY(EditAnywhere)
+	int32 ActiveTriggers = 1;
 };
